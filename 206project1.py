@@ -86,18 +86,20 @@ def findAge(a):
 # to nearest integer
 
 	ageList = []
+	current_day = int(datetime.date.today().day)
+	current_month = int(datetime.date.today().month)
+	current_year = int(datetime.date.today().year)
 
+	# second person down
 	for person in a[1:]:
-		birth_day, birth_month, birth_year = person['DOB'].split('/')
-		current_day = int(datetime.date.today().day)
-		current_month = int(datetime.date.today().month)
-		current_year = int(datetime.date.today().year)
-		if ((current_day > int(birth_day)) and (current_month > int(birth_month))):
-			ageList.append(current_year - int(birth_year))
+		birthday, birthmonth, birthyear = person['DOB'].split('/')
+		# if birthday already happened
+		if ((current_day > int(birthday)) and (current_month > int(birthmonth))):
+			ageList.append(current_year - int(birthyear))
+		# if birthday hasn't happened
 		else:
-			ageList.append(current_year - int(birth_year) + 1)
-	return round(sum(ageList) / len(ageList), 0)
-
+			ageList.append(current_year - int(birthyear) + 1)
+	return int(sum(ageList) / len(ageList))
 
 #Similar to mySort, but instead of returning single
 #Student, all of the sorted data is saved to a csv file.
@@ -117,7 +119,6 @@ def mySortPrint(a,col,fileName):
 
 	csv.close()
 	return None
-
 
 ################################################################
 ## DO NOT MODIFY ANY CODE BELOW THIS
