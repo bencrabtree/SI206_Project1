@@ -1,6 +1,6 @@
 import os
 import filecmp
-import math
+import datetime
 
 def getData(filename):
 #Input: file name
@@ -85,50 +85,19 @@ def findAge(a):
 # Output: Return the average age of students rounded
 # to nearest integer
 
-	ages = []
-	birthDates = []
-	currentDate = [9, 30, 2017]
-	age = 0
+	ageList = []
 
-	# gather data in list of lists (int form)
-	for person in a:
-		temp = []
-		for item in person['DOB'].split('/'):
-			temp.append(int(item))
-		birthDates.append(temp)
+	for person in a[1:]:
+		birth_day, birth_month, birth_year = person['DOB'].split('/')
+		current_day = int(datetime.date.today().day)
+		current_month = int(datetime.date.today().month)
+		current_year = int(datetime.date.today().year)
+		if ((current_day > int(birth_day)) and (current_month > int(birth_month))):
+			ageList.append(current_year - int(birth_year))
+		else:
+			ageList.append(current_year - int(birth_year) + 1)
+	return round(sum(ageList) / len(ageList), 0)
 
-	# calculate each age and put ages in list 'ages'
-	for birthdate in birthDates:
-		# year hasn't happened yet
-		if birthdate[2] > currentDate[2]:
-			age = 0
-		# year is this year
-		elif birthdate[2] == currentDate[2]:
-			# month hasn't happened yet
-			if birthdate[0] > currentDate[0]:
-				age = 0
-			else:
-				# day hasn't happened yet
-				if birthdate[1] > currentDate[1]:
-					age = 0
-				else:
-					age = 1
-		# year is in the past
-		elif birthdate[2] < currentDate[2]:
-			# birthday month hasn't happened this year yet
-			if birthdate[0] > currentDate[0]:
-				age = currentDate[2] - birthdate[2]	+ 1
-			# birthday is happening this month
-			elif birthdate[0] == currentDate[0]:
-				# birthday day hasn't happened this year yet
-				if birthdate[1] > currentDate[1]:
-					age = currentDate[2] - birthdate[2]	+ 1
-				# birthday day is today or already happened
-				elif birthdate[1] <= currentDate[1]:
-					age = currentDate[2] - birthdate[2]
-		ages.append(age)
-
-	return int(sum(ages) / len(ages))
 
 #Similar to mySort, but instead of returning single
 #Student, all of the sorted data is saved to a csv file.
