@@ -70,7 +70,6 @@ def findDay(a):
 # most often seen in the DOB
 
 	DOBdict = {}
-	valueList = []
 	for element in a:
 		dayOfMonth = element['DOB'].split('/')[1]
 		if dayOfMonth not in DOBdict.keys():
